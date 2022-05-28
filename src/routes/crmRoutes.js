@@ -9,7 +9,10 @@ const routes = (app) => {
             next() // use next() to pass to the next function of this GET endpoint
         }, (req, res, next) => {
             res.send('GET request sucsessfully!')
+            next();
         })
+
+        .get((req, res) => console.log("this will be skipped without next() in previous middleware!!!"))
 
         .post(addNewContact); // the POST endpoint will call the "addNewContact" method from Controller
 
