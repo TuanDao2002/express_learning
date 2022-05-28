@@ -1,4 +1,10 @@
-import { addNewContact } from '../controllers/crmController'
+import { addNewContact, 
+        getContacts,
+        getContactWithId,
+        updateContact,
+        deleteContact,
+        deleteAllContact 
+} from '../controllers/crmController'
 
 const routes = (app) => {
     app.route('/contact') // can chain many endpoints into a single route
@@ -7,21 +13,20 @@ const routes = (app) => {
             console.log(`Request from: ${req.originalUrl}`)
             console.log(`Request type: ${req.method}`)
             next() // use next() to pass to the next function of this GET endpoint
-        }, (req, res, next) => {
-            res.send('GET request sucsessfully!')
-            next();
-        })
+        }, getContacts)
 
         .get((req, res) => console.log("this will be skipped without next() in previous middleware!!!"))
 
-        .post(addNewContact); // the POST endpoint will call the "addNewContact" method from Controller
+        .post(addNewContact) // the POST endpoint will call the "addNewContact" method from Controller
+
+        .delete(deleteAllContact)
 
     app.route('/contact/:contactID') // this route has a path variable
-        .put((req, res) =>
-        res.send('PUT request successfully!'))
+        .get(getContactWithId)
 
-        .delete((req, res) =>
-        res.send('DELETE request successfully!'))
+        .put(updateContact)
+
+        .delete(deleteContact)
 }
 
 export default routes;
