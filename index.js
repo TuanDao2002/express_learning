@@ -31,6 +31,10 @@ app.use(bodyParser.json()) // the bodyParser will parse the request body in a wa
 
 routes(app);
 
+// serving static files in a specific path (optional)
+// the location of the public folder should start with "__dirname" to specify the root path of that folder
+app.use('/images', express.static(__dirname + '/public'));
+
 app.get('/', (req, res) => 
     res.send(`Node and express server running on port ${PORT}`)
 );
