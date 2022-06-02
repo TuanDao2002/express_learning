@@ -1,8 +1,9 @@
-const express = require('express');
-const app = express();
-const tasks = require('./routes/tasks');
+const express = require('express')
+const app = express()
+const tasks = require('./routes/tasks')
 const connectDB = require('./db/connect')
 require('dotenv').config()
+const notfound = require('./middleware/not-found');
 
 // middleware
 app.use(express.static('./public'))
@@ -10,6 +11,9 @@ app.use(express.json()) // the same as body-parser
 
 // routes
 app.use('/api/v1/tasks', tasks);
+
+// middleware for custom error
+app.use(notfound);
 
 const port = 3000;
 

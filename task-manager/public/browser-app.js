@@ -8,7 +8,7 @@ const showTasks = async () => {
   loadingDOM.style.visibility = 'visible'
   try {
     const {
-      data: { tasks },
+      data: { tasks }, // response object from axios has "data" property so use object destructuring to get the tasks in response
     } = await axios.get('/api/v1/tasks')
     if (tasks.length < 1) {
       tasksDOM.innerHTML = '<h5 class="empty-list">No tasks in your list</h5>'

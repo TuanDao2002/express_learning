@@ -1,13 +1,10 @@
 const Task = require("../model/Task");
+const asyncWrapper = require("../middleware/async");
 
-const getAllTasks = async (req, res) => {
-    try {
-        const tasks = await Task.find({}); // the condition is empty so all documents will be retrieved
-        res.status(200).json({ tasks });
-    } catch (error) {
-        res.status(500).json({ msg: error });
-    }
-};
+const getAllTasks = asyncWrapper(async (req, res) => {
+    const tasks = await Task.find({});
+    res.status(200).json({ tasks });
+});
 
 const createTask = async (req, res) => {
     try {
@@ -39,7 +36,7 @@ const updateTask = async (req, res) => {
         const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
             new: true, // always return the new updated object
             runValidators: true, // always validate the attributes of the object
-            useFindAndModify: false // not show warning message
+            useFindAndModify: false, // not show warning message
         });
 
         if (!task) {

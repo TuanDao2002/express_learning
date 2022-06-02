@@ -15,7 +15,7 @@ router.route('/')
 
 router.route('/:id')
     .get(getTask)
-    .patch(updateTask)
+    .patch(updateTask) // patch instead of put for partial update
     .delete(deleteTask);
 
 module.exports = router;
