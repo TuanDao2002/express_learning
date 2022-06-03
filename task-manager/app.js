@@ -15,8 +15,9 @@ app.use('/api/v1/tasks', tasks);
 
 // middleware for custom error
 app.use(notfound);
+app.use(errorHandlerMiddleware);
 
-const port = 3000;
+const port = process.env.PORT || 3000; // in case the project is hosted, it will use the port from that host. Otherwise, it will run local on port 3000
 
 const start = async () => {
     try {

@@ -1,5 +1,6 @@
 const Task = require("../model/Task");
 const asyncWrapper = require("../middleware/async");
+const { createCustomError } = require("../errors/custom-error");
 
 const getAllTasks = asyncWrapper(async (req, res) => {
     const tasks = await Task.find({});
@@ -11,12 +12,12 @@ const createTask = asyncWrapper(async (req, res) => {
     res.status(201).json({ task });
 });
 
-const getTask = asyncWrapper(async (req, res) => {
+const getTask = asyncWrapper(async (req, res, next) => {
     const { id: taskID } = req.params; // get id from request param by object destructuring
     const task = await Task.findOne({ _id: taskID }); // find the document matched with the required id
 
     if (!task) {
-        return res.status(404).json({ msg: `No task with ID: ${taskID}` }); // return immediately the error message, not the success status
+        return next(createCustomError(`No task with ID: ${taskID}`, 404)); // pass the Error object to next middleware function (error-handler.js)
     }
 
     res.status(200).json({ task });
@@ -31,7 +32,7 @@ const updateTask = asyncWrapper(async (req, res) => {
     });
 
     if (!task) {
-        return res.status(404).json({ msg: `No task with ID: ${taskID}` }); // return immediately the error message, not the success status
+        return next(createCustomError(`No task with ID: ${taskID}`, 404)); // pass the Error object to next middleware function (error-handler.js)
     }
 
     res.status(200).json({ task });
@@ -42,7 +43,7 @@ const deleteTask = asyncWrapper(async (req, res) => {
     const task = await Task.findOneAndDelete({ _id: taskID }); // find the require ID and delete it
 
     if (!task) {
-        return res.status(404).json({ msg: `No task with ID: ${taskID}` }); // return immediately the error message, not the success status
+        return next(createCustomError(`No task with ID: ${taskID}`, 404)); // pass the Error object to next middleware function (error-handler.js)
     }
 
     res.status(200).json({ task: null, status: "success" }); // do not need to return the deleted object
