@@ -36,9 +36,18 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.createJWT = function () {
     // can use this keyword to access the field in schema
     // JWT_SECRET is generated in webiste: https://www.allkeysgenerator.com/
-    return jwt.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_LIFETIME,
-    });
+    return jwt.sign(
+        { userId: this._id, name: this.name },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: process.env.JWT_LIFETIME,
+        }
+    );
+};
+
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+    const isMatch = await bcrypt.compare(candidatePassword, this.password);
+    return isMatch;
 };
 
 module.exports = mongoose.model("User", UserSchema);
