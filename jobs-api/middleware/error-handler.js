@@ -8,11 +8,13 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     };
 
     // do not need to check if the err object is instance of CustomAPIError class
+    /*
+    if (err instanceof CustomAPIError) {
+        return res.status(err.statusCode).json({ msg: err.message });
+    }
+    */
 
-    // if (err instanceof CustomAPIError) {
-    //     return res.status(err.statusCode).json({ msg: err.message });
-    // }
-
+    // but we will check the error name and code, then custom the response for each type of error
     if (err.name === "ValidationError") {
         customError.msg = Object.values(err.errors)
             .map((item) => item.message) // get message of each errors
@@ -26,6 +28,12 @@ const errorHandlerMiddleware = (err, req, res, next) => {
         )} field, please choose another value`;
         customError.statusCode = 400;
     }
+
+    if (err.name === 'CastError') {
+        customError.msg = `No item found with id: ${err.value}`;
+        customError.statusCode = 404;
+    }
+
     // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({err});
     // only return the error message, not the whole err object
     return res.status(customError.statusCode).json({ msg: customError.msg });
