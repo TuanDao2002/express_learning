@@ -1,6 +1,6 @@
 const Job = require("../models/Job");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, NotFoundError } = require("../errors/index");
+const { BadRequestError, NotFoundError } = require("../errors");
 
 const getAllJobs = async (req, res) => {
     const jobs = await Job.find({ createdBy: req.user.userId }); // find all the jobs of a user with userId (which is attached to request body from token)

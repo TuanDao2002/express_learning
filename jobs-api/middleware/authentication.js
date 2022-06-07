@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { BadRequestError, UnauthenticatedError } = require("../errors/index");
+const { UnauthenticatedError } = require("../errors");
 
 const auth = (req, res, next) => {
     // check header

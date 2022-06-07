@@ -67,3 +67,9 @@ Swagger UI
       required: true
       description: the job id
 ```
+#### Deploy
+
+- when deploy on heroku, make sure to remove git with "rm .git", then "git init", "heroku login", "heroku create <project name>"
+- then we create ProcFile with "web: node app.js" (change to node app.js in start script in package.json as well)
+- then we do git add, commit, push heroku master to deploy
+- can also set enviroment variables in heroku in Settings when deploy on heroku
