@@ -19,7 +19,7 @@ const sendEmail = async (req, res) => {
 
     const info = await transporter.sendMail({
         from: process.env.USER,
-        to: "tuan09092002@gmail.com",
+        to: req.query.email,
         subject: "Verification password",
         html: `<center><h3>Your verification password is:</h3></center><center><strong><h1>${verificationPass}</h1></strong></center>`,
     });
