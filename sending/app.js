@@ -4,14 +4,14 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 
-const sendEmail = require("./controllers/sendingEmail");
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
 
-app.get("/send", sendEmail);
+const emailRouter = require('./routes/sendingEmail');
+app.use("/email", emailRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

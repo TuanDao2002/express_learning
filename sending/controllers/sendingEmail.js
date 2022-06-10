@@ -15,14 +15,13 @@ const sendEmail = async (req, res) => {
 
     const MAX = 999999;
     const MIN = 100000;
-
     const verificationPass = Math.floor(Math.random() * (MAX - MIN) + MIN);
 
     const info = await transporter.sendMail({
         from: process.env.USER,
-        to: "s3877347@rmit.edu.vn",
+        to: "tuan09092002@gmail.com",
         subject: "Verification password",
-        text: `Your verification password is: ${verificationPass}`,
+        html: `<center><h3>Your verification password is:</h3></center><center><strong><h1>${verificationPass}</h1></strong></center>`,
     });
 
     res.json(info);
