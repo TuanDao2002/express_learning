@@ -20,19 +20,15 @@ imageInputDOM.addEventListener("change", async (e) => {
         });
 
         imageValue = src;
-        // console.log(imageValue);
+        if (imageValue === null || imageValue === undefined) {
+            containerDOM.innerHTML = `<h1>Image is not uploaded yet !!!</h1>`;
+            return;
+        }
+
+        containerDOM.innerHTML = `<img src="${imageValue}"/>`;
     } catch (error) {
         imageValue = null;
+        containerDOM.innerHTML = `<h1>${error.message}</h1>`;
         console.log(error);
     }
-});
-
-fileFormDOM.addEventListener("submit", (e) => {
-    e.preventDefault();
-    console.log("add image");
-    if (imageValue === null || imageValue === undefined) {
-        containerDOM.innerHTML = `<h1>Image is not uploaded yet !!!</h1>`;
-        return;
-    }
-    containerDOM.innerHTML = `<img src="${imageValue}"/>`;
 });
